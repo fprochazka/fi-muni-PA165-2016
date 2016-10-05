@@ -1,20 +1,17 @@
 package cz.muni.fi.pa165.currency;
 
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
 
-/**
- * CurrencyConvertor performs conversions between currencies.
- *
- * @author petr.adamek@embedit.cz
- */
 public interface CurrencyConvertor {
 
     /**
      * Returns amount of money in target currency corresponding to given amount
      * of money in source currency.
-     * 
+     *
      * <p>Result is always rounded to have two digits after the decimal point
      * with {@link RoundingMode#HALF_EVEN}.
      *
