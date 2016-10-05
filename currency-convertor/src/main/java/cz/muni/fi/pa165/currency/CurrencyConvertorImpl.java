@@ -10,17 +10,20 @@ import java.util.Currency;
  *
  * @author petr.adamek@embedit.cz
  */
-public class CurrencyConvertorImpl implements CurrencyConvertor {
+public class CurrencyConvertorImpl implements CurrencyConvertor
+{
 
     private final ExchangeRateTable exchangeRateTable;
     //private final Logger logger = LoggerFactory.getLogger(CurrencyConvertorImpl.class);
 
-    public CurrencyConvertorImpl(ExchangeRateTable exchangeRateTable) {
+    public CurrencyConvertorImpl(ExchangeRateTable exchangeRateTable)
+    {
         this.exchangeRateTable = exchangeRateTable;
     }
 
     @Override
-    public BigDecimal convert(Currency sourceCurrency, Currency targetCurrency, BigDecimal sourceAmount) {
+    public BigDecimal convert(Currency sourceCurrency, Currency targetCurrency, BigDecimal sourceAmount)
+    {
         if (sourceCurrency == null) {
             throw new IllegalArgumentException("sourceCurrency is null");
         }
