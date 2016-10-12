@@ -32,7 +32,19 @@ public class MainJavaSe
         // TODO under this line, persist two categories, one with name
         // Electronics and second with name Musical
         // You must first obtain the Entity manager
+        EntityManager entityManager = emf.createEntityManager();
+        entityManager.getTransaction().begin();
 
+        Category electronics = new Category();
+        electronics.setName("Electronics");
+        entityManager.persist(electronics);
+
+        Category musical = new Category();
+        musical.setName("Musical");
+        entityManager.persist(musical);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
 
         // The code below is just testing code do not modify it
         EntityManager em = emf.createEntityManager();
