@@ -22,7 +22,7 @@ public class MainJavaSe
         emf = Persistence.createEntityManagerFactory("default");
 
         // BEGIN YOUR CODE
-        task04();
+        task05();
         // END YOUR CODE
         emf.close();
     }
@@ -75,7 +75,12 @@ public class MainJavaSe
         // TODO under this line. create new EM and start new transaction. Merge
         // the detached category
         // into the context and change the name to "Electro"
-
+        EntityManager mergingEm = emf.createEntityManager();
+        mergingEm.getTransaction().begin();
+        category.setName("Electro");
+        mergingEm.merge(category);
+        mergingEm.getTransaction().commit();
+        mergingEm.close();
 
         // The code below is just testing code do not modify it
         EntityManager checkingEm = emf.createEntityManager();
