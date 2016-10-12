@@ -2,12 +2,15 @@ package cz.fi.muni.pa165;
 
 import cz.fi.muni.pa165.entity.Category;
 import cz.fi.muni.pa165.entity.Product;
+import cz.fi.muni.pa165.enums.Color;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainJavaSe
@@ -22,7 +25,7 @@ public class MainJavaSe
         emf = Persistence.createEntityManagerFactory("default");
 
         // BEGIN YOUR CODE
-        task05();
+        task06();
         // END YOUR CODE
         emf.close();
     }
@@ -102,11 +105,24 @@ public class MainJavaSe
         // Then persist exactly one Product with the following values:
         // * name='Guitar'
         // * color=Color.BLACK
-        // * dateAdded = 20-01-2011 - to fill java.util.Date, use java.util.Calendar.getTime(). On the Calendar, set only these three fields: YEAR=11, MONTH=0, DAY_OF_MONTH=20
+        // * dateAdded = 20-01-2011 - to fill java.util.Date, use java.util.Calendar.getTime().
+        //      On the Calendar, set only these three fields: YEAR=11, MONTH=0, DAY_OF_MONTH=20
         //
-        // Additional task: Change the underlying table of Product entity to be ESHOP_PRODUCTS. After you do this, check this by inspecting console output (the CREATE TABLE statement)
+        // Additional task: Change the underlying table of Product entity to be ESHOP_PRODUCTS.
+        // After you do this, check this by inspecting console output (the CREATE TABLE statement)
         //
         // To test your code uncomment the commented code at the end of this method.
+
+        EntityManager entityManager = emf.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        Calendar addedDate = Calendar.getInstance();
+        addedDate.set(2011, 0, 20);
+        Product p1 = new Product("Guitar", Color.BLACK, addedDate.getTime());
+        entityManager.persist(p1);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
 
 
         EntityManager em = emf.createEntityManager();
@@ -115,8 +131,6 @@ public class MainJavaSe
             .getSingleResult();
         em.getTransaction().commit();
         em.close();
-
-        /** TODO Uncomment the following test code after you are finished!
 
          assertEq(p.getName(), "Guitar");
          Calendar cal = Calendar.getInstance();
@@ -150,7 +164,6 @@ public class MainJavaSe
 
 
          System.out.println("Task7 ok!");
-         */
     }
 
     private static void task08()
