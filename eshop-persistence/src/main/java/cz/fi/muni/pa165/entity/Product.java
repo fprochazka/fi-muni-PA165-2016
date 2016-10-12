@@ -42,6 +42,11 @@ public class Product
         return id;
     }
 
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
     public String getName()
     {
         return name;
@@ -70,5 +75,33 @@ public class Product
     public void setAddedDate(Date addedDate)
     {
         this.addedDate = addedDate;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Product)) {
+            return false;
+        }
+
+        Product product = (Product) o;
+
+        if (!getName().equals(product.getName())) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = 0;
+        result = 31 * result + ((name == null) ? 0 : name.hashCode());
+        return result;
     }
 }

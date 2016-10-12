@@ -25,7 +25,7 @@ public class MainJavaSe
         emf = Persistence.createEntityManagerFactory("default");
 
         // BEGIN YOUR CODE
-        task06();
+        task08();
         // END YOUR CODE
         emf.close();
     }
@@ -169,15 +169,13 @@ public class MainJavaSe
     private static void task08()
     {
         System.out.println("Running TASK 08");
-        //Implement business equivalence on Product (equals and hashcode method). Tip: Product.name is nonullable and should have unique values
-        //This is very important concept and you should understand it beyond just "making this method work"
+        //Implement business equivalence on Product (equals and hashcode method).
+        // Tip: Product.name is nonullable and should have unique values
+        // This is very important concept and you should understand it beyond just "making this method work"
         // see https://developer.jboss.org/wiki/EqualsandHashCode
 
         //TODO after you implement equals nad hashCode, you can uncomment the code below. It will try
         // to check whether you are doing everything correctly.
-
-/* TODO uncomment the following (it should work if you were successfull with task08)
-
 
 		class MockProduct extends Product {
 			private boolean getNameCalled = false;
@@ -190,13 +188,13 @@ public class MainJavaSe
 
 		Product p = new Product();
 		p.setName("X");
-		p.setId(2l);
+		p.setId(2L);
 		Product p2 = new Product();
 		p2.setName("X");
-		p2.setId(4l);
+		p2.setId(4L);
 		MockProduct mp = new MockProduct();
 		mp.setName("X");
-		p.setId(3l);
+		p.setId(3L);
 
 		System.out.println("Your equals and hashcode should work on unique 'name' attribute");
 		if (p.equals(p2) && p.hashCode()==p2.hashCode()){
@@ -214,8 +212,6 @@ public class MainJavaSe
 		if (mp.getNameCalled){
 			System.out.println("CORRECT");
 		} else System.out.println("INCORRECT!");
-		 */
-
     }
 
     private static void assertEq(Object obj1, Object obj2)
