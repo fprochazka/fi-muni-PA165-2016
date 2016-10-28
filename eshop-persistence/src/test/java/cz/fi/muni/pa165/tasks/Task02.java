@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import javax.validation.ConstraintViolationException;
 import java.util.Set;
 
 import static org.testng.Assert.*;
@@ -147,6 +148,18 @@ public class Task02 extends AbstractTestNGSpringContextTests
         }
 
         Assert.fail("Couldn't find category " + expectedCategoryName + " in collection " + categories);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void testDoesNotSaveNullName()
+    {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        em.persist(new Product());
+
+        em.getTransaction().commit();
+        em.close();
     }
 
     private void assertContainsProductWithName(
