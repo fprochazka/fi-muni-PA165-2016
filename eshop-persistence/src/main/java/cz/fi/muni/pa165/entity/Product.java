@@ -6,21 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import cz.fi.muni.pa165.dto.Color;
@@ -29,70 +15,62 @@ import cz.fi.muni.pa165.validation.AllOrNothing;
 @Entity
 @AllOrNothing(members={"image", "imageMimeType"})
 public class Product {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
 
 	@Lob
 	private byte[] image;
 
 	private String imageMimeType;
-	
+
 
 	private String name;
-	
+
 	/*
 	 * The day this item has been added to the eshop
 	 */
 	@Temporal(TemporalType.DATE)
 	private java.util.Date addedDate;
-	
+
 
 	@OneToOne
 	@JoinTable(name="CURRENT_PRICE")
 	private Price currentPrice;
-	
+
 	@OneToMany()
 	@OrderBy("priceStart DESC")
 	@JoinColumn(name="Product_FK")
 	private List<Price> priceHistory = new ArrayList<Price>();
-	
+
 	@Enumerated
 	private Color color;
 
-	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "products")
+	private Set<Category> categories = new HashSet<>(0);
+
+
 	public void setId(Long id){
 		this.id = id;
 	}
 
 
 
-	/**
-	 * TODO these two methods are here just to make Task04 compilable. After you are finished
-	 * with TASK 02 you should delete this empty method
-	 * @param kitchen
-	 */
-	public void addCategory(Category kitchen) {	
+	public void removeCategory(Category category)	{
+		this.categories.remove(category);
 	}
-	public List<Product> getCategories() {
-		return null;
+
+	public void addCategory(Category c) {
+		categories.add(c);
+		c.addProduct(this);
 	}
-	//TODO after you are done with task02 you can uncomment this methods
-//	public void removeCategory(Category category)	{
-//		this.categories.remove(category);
-//	}
-//	
-//	public void addCategory(Category c) {
-//		categories.add(c);
-//		c.addProduct(this);
-//	}
-//
-//	public Set<Category> getCategories() {
-//		return Collections.unmodifiableSet(categories);
-//	}
-	
+
+	public Set<Category> getCategories() {
+		return Collections.unmodifiableSet(categories);
+	}
+
 
 
 	public java.util.Date getAddedDate() {
@@ -109,7 +87,7 @@ public class Product {
 	public byte[] getImage() {
 		return image;
 	}
-	
+
 
 	public String getImageMimeType() {
 		return imageMimeType;
@@ -131,7 +109,7 @@ public class Product {
 	public void addHistoricalPrice(Price p){
 		priceHistory.add(p);
 	}
-	
+
 	public void setCurrentPrice(Price currentPrice) {
 		this.currentPrice = currentPrice;
 	}
@@ -195,7 +173,7 @@ public class Product {
 
 
 
-	
-	
-	
+
+
+
 }

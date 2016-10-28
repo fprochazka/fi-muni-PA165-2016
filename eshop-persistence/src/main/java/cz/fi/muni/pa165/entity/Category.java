@@ -4,38 +4,34 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class Category {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	@Column(nullable=false,unique=true)
 	private String name;
-	
 
-	//TODO after you are done with task02 you can uncomment this methods
-//	public void addProduct(Product product) {
-//		this.products.add(product);
-//	}
-//
-//	public Set<Product> getProducts() {
-//		return Collections.unmodifiableSet(products);
-//	}
+	@ManyToMany(fetch = FetchType.LAZY)
+	private Set<Product> products = new HashSet<>(0);
+
+
+	public void addProduct(Product product) {
+		this.products.add(product);
+	}
+
+	public Set<Product> getProducts() {
+		return Collections.unmodifiableSet(products);
+	}
 
 	public Category(Long categoryId) {
-		this.id = categoryId; 
+		this.id = categoryId;
 	}
 	public Category() {
 	}
@@ -77,7 +73,7 @@ public class Category {
 			return false;
 		return true;
 	}
-	
-	
-	
+
+
+
 }
